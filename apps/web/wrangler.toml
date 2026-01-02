@@ -4,9 +4,8 @@ compatibility_date = "2025-01-01"
 # Cloudflare Pages will use this output directory for deployments.
 pages_build_output_dir = "./dist"
 
-# Required by @astrojs/cloudflare sessions middleware.
-# Create a KV namespace and replace the ids (Dashboard or `wrangler kv namespace create SESSION`).
-kv_namespaces = [
-  { binding = "SESSION", id = "REPLACE_WITH_KV_ID", preview_id = "REPLACE_WITH_PREVIEW_KV_ID" }
-]
+# Session KV namespace - configure in Cloudflare dashboard when needed
+# kv_namespaces = [
+#   { binding = "SESSION", id = "<KV_ID>", preview_id = "<PREVIEW_KV_ID>" }
+# ]
 
