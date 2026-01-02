@@ -35,4 +35,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy apps/web/dist --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT }}
+          command: pages deploy dist --project-name ${{ secrets.CLOUDFLARE_PAGES_PROJECT }}
+          packageManager: pnpm
+          workingDirectory: apps/web
