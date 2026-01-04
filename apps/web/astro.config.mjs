@@ -17,17 +17,13 @@ export default defineConfig({
     platformProxy: { enabled: false }, // Disable to avoid build error
     imageService: "compile",
     routes: {
-      strategy: "include",
-      include: [
-        "/plugins",
-        "/plugins/*",
-        "/showcase",
-        "/showcase/*",
-        "/downloads",
-        "/downloads/*",
-        "/api/*",
-        "/auth/*",
-        "/newsletter/*",
+      strategy: "exclude",
+      exclude: [
+        "/favicon.svg",
+        "/og-image.png",
+        "/robots.txt",
+        "/sw.js",
+        "/_astro/*",
       ],
     },
   }),
