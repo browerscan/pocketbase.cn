@@ -1,6 +1,6 @@
 import { atom, computed } from "nanostores";
-import type { User } from "@/lib/types/user";
-import { pb } from "@/lib/pocketbase/client";
+import type { User } from "../types/user";
+import { pb } from "../pocketbase/client";
 
 export const authToken = atom<string | null>(null);
 export const authUser = atom<User | null>(null);

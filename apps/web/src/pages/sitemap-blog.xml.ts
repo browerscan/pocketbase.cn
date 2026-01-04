@@ -1,6 +1,6 @@
 import { getCollection } from "astro:content";
-import { SITE_URL } from "@/lib/constants/config";
-import { POSTS_PER_PAGE } from "@/lib/constants/blog";
+import { SITE_URL } from "../lib/constants/config";
+import { POSTS_PER_PAGE } from "../lib/constants/blog";
 
 export async function GET() {
   const blog = await getCollection("blog", ({ data }) => !data.draft);

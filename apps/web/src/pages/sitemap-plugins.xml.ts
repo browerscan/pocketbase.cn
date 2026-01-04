@@ -1,4 +1,4 @@
-import { SITE_URL, POCKETBASE_URL } from "@/lib/constants/config";
+import { SITE_URL, POCKETBASE_URL } from "../lib/constants/config";
 
 interface PluginItem {
   slug: string;

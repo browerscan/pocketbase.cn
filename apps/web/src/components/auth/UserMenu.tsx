@@ -6,8 +6,8 @@ import {
   initAuth,
   isAuthenticated,
   logout,
-} from "@/lib/stores/auth";
-import { pb } from "@/lib/pocketbase/client";
+} from "../../lib/stores/auth";
+import { pb } from "../../lib/pocketbase/client";
 
 export default function UserMenu() {
   const loading = useStore(authLoading);

@@ -6,9 +6,9 @@ import sitemap from "@astrojs/sitemap";
 import starlight from "@astrojs/starlight";
 import tailwind from "@astrojs/tailwind";
 import pagefind from "astro-pagefind";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { env } from "./env.mjs";
 
-const SITE_URL = process.env.PUBLIC_SITE_URL || "https://pocketbase.cn";
+const SITE_URL = env.PUBLIC_SITE_URL;
 
 export default defineConfig({
   site: SITE_URL,
@@ -136,7 +136,6 @@ export default defineConfig({
     }),
   ],
   vite: {
-    plugins: [tsconfigPaths()],
     define: {
       __SITE_URL__: JSON.stringify(SITE_URL),
     },

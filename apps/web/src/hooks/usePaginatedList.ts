@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { POCKETBASE_URL } from "@/lib/constants/config";
-import { fetchPaginated, type ApiResponse } from "@/lib/utils/api";
-import { getErrorMessage } from "@/lib/errors/AppError";
+import { POCKETBASE_URL } from "../lib/constants/config";
+import { fetchPaginated, type ApiResponse } from "../lib/utils/api";
+import { getErrorMessage } from "../lib/errors/AppError";
 
 export interface PaginatedMeta {
   hasMore?: boolean;

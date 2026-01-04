@@ -1,9 +1,10 @@
 ---
-import Header from "@/components/layout/Header.astro";
-import Footer from "@/components/layout/Footer.astro";
-import CookieConsent from "@/components/ui/CookieConsent";
-import "@/styles/global.css";
-import { SITE_URL, POCKETBASE_URL } from "@/lib/constants/config";
+import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
+import CookieConsent from "../components/ui/CookieConsent";
+import "../styles/global.css";
+import { SITE_URL, POCKETBASE_URL } from "../lib/constants/config";
+import { publicEnv } from "../lib/env/public";
 
 const {
   title = "PocketBase.cn",
@@ -19,10 +20,10 @@ const {
 const currentPath = Astro.url.pathname.replace(/\/+$/g, "") || "/";
 const canonical = (canonicalOverride && String(canonicalOverride)) ? String(canonicalOverride) : new URL(currentPath === "/" ? "/" : `${currentPath}/`, SITE_URL).toString();
 const ogImage = (ogImageOverride && String(ogImageOverride)) ? String(ogImageOverride) : new URL("/og-image.png", SITE_URL).toString();
-const gaId = import.meta.env.PUBLIC_GA_ID || "";
-const umamiSrc = import.meta.env.PUBLIC_UMAMI_SRC || "";
-const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID || "";
-const baiduVerification = import.meta.env.PUBLIC_BAIDU_SITE_VERIFICATION || "";
+const gaId = publicEnv.PUBLIC_GA_ID;
+const umamiSrc = publicEnv.PUBLIC_UMAMI_SRC;
+const umamiWebsiteId = publicEnv.PUBLIC_UMAMI_WEBSITE_ID;
+const baiduVerification = publicEnv.PUBLIC_BAIDU_SITE_VERIFICATION;
 
 let apiOrigin = "";
 try {

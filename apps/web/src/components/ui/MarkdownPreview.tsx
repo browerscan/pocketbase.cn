@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { renderMarkdownSafe } from "@/lib/utils/markdown";
+import { renderMarkdownSafe } from "../../lib/utils/markdown";
 
 interface MarkdownPreviewProps {
   content: string;

@@ -1,5 +1,5 @@
 import { getCollection } from "astro:content";
-import { SITE_URL } from "@/lib/constants/config";
+import { SITE_URL } from "../lib/constants/config";
 
 function routeForId(id: string) {
   const normalized = String(id || "").replace(/^\/+|\/+$/g, "");

@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
-import { pb } from "@/lib/pocketbase/client";
+import { pb } from "../../lib/pocketbase/client";
+import { publicEnv } from "../../lib/env/public";
 
 export default function LoginPanel() {
   const [loading, setLoading] = useState(false);
@@ -9,9 +10,7 @@ export default function LoginPanel() {
   const [password, setPassword] = useState("");
 
   const enablePasswordLogin = useMemo(() => {
-    try {
-      if (import.meta.env.PUBLIC_ENABLE_PASSWORD_LOGIN === "1") return true;
-    } catch (_) {}
+    if (publicEnv.PUBLIC_ENABLE_PASSWORD_LOGIN === "1") return true;
     try {
       return (
         window.location.hostname === "localhost" ||

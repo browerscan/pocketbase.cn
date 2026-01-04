@@ -1,6 +1,6 @@
 import { useState, memo } from "react";
-import { POCKETBASE_URL } from "@/lib/constants/config";
-import { pb } from "@/lib/pocketbase/client";
+import { POCKETBASE_URL } from "../../lib/constants/config";
+import { pb } from "../../lib/pocketbase/client";
 
 function VoteButton({ slug }: { slug: string }) {
   const [loading, setLoading] = useState(false);

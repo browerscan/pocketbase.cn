@@ -1,10 +1,10 @@
 ---
 export const prerender = false;
 
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import ShowcaseSubmitForm from "@/components/showcase/ShowcaseSubmitForm";
-import type { ShowcaseEditData } from "@/components/showcase/ShowcaseSubmitForm";
-import { POCKETBASE_URL } from "@/lib/constants/config";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ShowcaseSubmitForm from "../../../components/showcase/ShowcaseSubmitForm";
+import type { ShowcaseEditData } from "../../../components/showcase/ShowcaseSubmitForm";
+import { POCKETBASE_URL } from "../../../lib/constants/config";
 
 const { slug } = Astro.params;
 if (!slug) return Astro.redirect("/showcase");

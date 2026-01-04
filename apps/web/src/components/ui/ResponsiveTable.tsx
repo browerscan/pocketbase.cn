@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { cn } from "@/lib/utils/cn";
+import { cn } from "../../lib/utils/cn";
 
 export interface TableColumn<T> {
   key: string;

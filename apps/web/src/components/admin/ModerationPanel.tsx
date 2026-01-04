@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { useStore } from "@nanostores/react";
-import { pb } from "@/lib/pocketbase/client";
+import { pb } from "../../lib/pocketbase/client";
 import {
   authLoading,
   authUser,
   initAuth,
   isAuthenticated,
-} from "@/lib/stores/auth";
+} from "../../lib/stores/auth";
 
 type Row = {
   id: string;

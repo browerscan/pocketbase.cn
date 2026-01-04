@@ -1,12 +1,12 @@
 ---
 export const prerender = false;
 
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import { POCKETBASE_URL } from "@/lib/constants/config";
-import { sanitizeRichHtml } from "@/lib/utils/sanitize";
-import VoteButton from "@/components/showcase/VoteButton";
-import CommentsThread from "@/components/comments/CommentsThread";
-import { pocketbaseFileUrl } from "@/lib/utils/fileUrl";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { POCKETBASE_URL } from "../../lib/constants/config";
+import { sanitizeRichHtml } from "../../lib/utils/sanitize";
+import VoteButton from "../../components/showcase/VoteButton";
+import CommentsThread from "../../components/comments/CommentsThread";
+import { pocketbaseFileUrl } from "../../lib/utils/fileUrl";
 
 const { slug } = Astro.params;
 if (!slug) return Astro.redirect("/showcase");

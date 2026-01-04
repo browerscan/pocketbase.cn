@@ -1,7 +1,7 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
 // Mock PocketBase client - hoisted mocks must use inline functions
-vi.mock("@/lib/pocketbase/client", () => {
+vi.mock("../pocketbase/client", () => {
   const mockAuthStore = {
     isValid: false,
     token: "",
@@ -29,7 +29,7 @@ import {
   pb,
   __mockAuthStore,
   __mockAuthRefresh,
-} from "@/lib/pocketbase/client";
+} from "../pocketbase/client";
 
 describe("Auth Store", () => {
   beforeEach(() => {

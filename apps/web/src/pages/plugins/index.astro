@@ -1,9 +1,9 @@
 ---
 export const prerender = false;
 
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import PluginsBrowser from "@/components/plugins/PluginsBrowser";
-import { POCKETBASE_URL, SITE_URL } from "@/lib/constants/config";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PluginsBrowser from "../../components/plugins/PluginsBrowser";
+import { POCKETBASE_URL, SITE_URL } from "../../lib/constants/config";
 
 const DEFAULT_SORT = "-featured,-created";
 const LIMIT = 24;

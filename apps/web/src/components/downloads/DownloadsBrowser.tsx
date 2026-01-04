@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { POCKETBASE_URL } from "@/lib/constants/config";
-import { TableSkeleton } from "@/components/ui/Skeleton";
-import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
-import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
-import { fetchApi, postApi } from "@/lib/utils/api";
-import { getErrorMessage } from "@/lib/errors/AppError";
-import { cn } from "@/lib/utils/cn";
+import { POCKETBASE_URL } from "../../lib/constants/config";
+import { TableSkeleton } from "../ui/Skeleton";
+import { ErrorBoundary } from "../ui/ErrorBoundary";
+import { LoadingSpinner } from "../ui/LoadingSpinner";
+import { fetchApi, postApi } from "../../lib/utils/api";
+import { getErrorMessage } from "../../lib/errors/AppError";
+import { cn } from "../../lib/utils/cn";
 
 export type DownloadPlatform =
   | "windows"

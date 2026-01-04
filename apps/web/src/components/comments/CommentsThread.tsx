@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { useStore } from "@nanostores/react";
-import { POCKETBASE_URL } from "@/lib/constants/config";
+import { POCKETBASE_URL } from "../../lib/constants/config";
 import {
   authLoading,
   authToken,
   authUser,
   initAuth,
   isAuthenticated,
-} from "@/lib/stores/auth";
-import { pocketbaseFileUrl } from "@/lib/utils/fileUrl";
+} from "../../lib/stores/auth";
+import { pocketbaseFileUrl } from "../../lib/utils/fileUrl";
 
 type CommentAuthor = {
   id: string;

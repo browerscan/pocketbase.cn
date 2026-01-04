@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useStore } from "@nanostores/react";
-import { pb } from "@/lib/pocketbase/client";
+import { pb } from "../../lib/pocketbase/client";
 import {
   authLoading,
   authToken,
@@ -8,7 +8,7 @@ import {
   initAuth,
   isAuthenticated,
   logout,
-} from "@/lib/stores/auth";
+} from "../../lib/stores/auth";
 
 export default function ProfilePanel() {
   const loading = useStore(authLoading);

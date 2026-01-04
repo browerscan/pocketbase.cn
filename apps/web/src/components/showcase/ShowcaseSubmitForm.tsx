@@ -1,27 +1,27 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useStore } from "@nanostores/react";
 import { z } from "zod";
-import { pb } from "@/lib/pocketbase/client";
+import { pb } from "../../lib/pocketbase/client";
 import {
   authLoading,
   authUser,
   initAuth,
   isAuthenticated,
-} from "@/lib/stores/auth";
-import { SHOWCASE_CATEGORIES } from "@/lib/constants/categories";
-import { slugify } from "@/lib/utils/slug";
-import { showcaseSubmitSchema } from "@/lib/schemas";
+} from "../../lib/stores/auth";
+import { SHOWCASE_CATEGORIES } from "../../lib/constants/categories";
+import { slugify } from "../../lib/utils/slug";
+import { showcaseSubmitSchema } from "../../lib/schemas";
 import {
   clearDraft,
   loadDraft,
   saveDraft,
   type DraftData,
-} from "@/lib/utils/draftStore";
+} from "../../lib/utils/draftStore";
 import {
   createTouchTracker,
   type FormErrors,
-} from "@/lib/utils/formValidation";
-import { MarkdownEditor } from "@/components/ui/MarkdownPreview";
+} from "../../lib/utils/formValidation";
+import { MarkdownEditor } from "../ui/MarkdownPreview";
 
 const schema = showcaseSubmitSchema.extend({
   category: z.enum(SHOWCASE_CATEGORIES),

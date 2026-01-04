@@ -1,4 +1,4 @@
-import { POCKETBASE_URL } from "@/lib/constants/config";
+import { POCKETBASE_URL } from "../constants/config";
 
 type FileUrlOptions = {
   thumb?: string;

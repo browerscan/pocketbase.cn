@@ -1,27 +1,27 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useStore } from "@nanostores/react";
 import { z } from "zod";
-import { pb } from "@/lib/pocketbase/client";
+import { pb } from "../../lib/pocketbase/client";
 import {
   authLoading,
   authUser,
   initAuth,
   isAuthenticated,
-} from "@/lib/stores/auth";
-import { PLUGIN_CATEGORIES } from "@/lib/constants/categories";
-import { slugify } from "@/lib/utils/slug";
-import { pluginSubmitSchema } from "@/lib/schemas";
+} from "../../lib/stores/auth";
+import { PLUGIN_CATEGORIES } from "../../lib/constants/categories";
+import { slugify } from "../../lib/utils/slug";
+import { pluginSubmitSchema } from "../../lib/schemas";
 import {
   clearDraft,
   loadDraft,
   saveDraft,
   hasDraft,
   type DraftData,
-} from "@/lib/utils/draftStore";
+} from "../../lib/utils/draftStore";
 import {
   createTouchTracker,
   type FormErrors,
-} from "@/lib/utils/formValidation";
+} from "../../lib/utils/formValidation";
 
 const schema = pluginSubmitSchema.extend({
   category: z.enum(PLUGIN_CATEGORIES),

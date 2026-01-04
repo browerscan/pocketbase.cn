@@ -1,8 +1,8 @@
 ---
 export const prerender = false;
 
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import { POCKETBASE_URL } from "@/lib/constants/config";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { POCKETBASE_URL } from "../../lib/constants/config";
 
 const token = Astro.url.searchParams.get("token") || "";
 let status = "missing";

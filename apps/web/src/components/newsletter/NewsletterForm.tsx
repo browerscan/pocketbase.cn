@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { POCKETBASE_URL } from "@/lib/constants/config";
-import { fetchWithCsrf } from "@/lib/utils/csrf";
+import { POCKETBASE_URL } from "../../lib/constants/config";
+import { fetchWithCsrf } from "../../lib/utils/csrf";
 
 type MessageStatus = "success" | "error" | null;
 

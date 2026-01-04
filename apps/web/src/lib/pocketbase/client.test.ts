@@ -22,7 +22,7 @@ vi.mock("pocketbase", () => {
 });
 
 // Mock config
-vi.mock("@/lib/constants/config", () => ({
+vi.mock("../constants/config", () => ({
   POCKETBASE_URL: "http://localhost:8090",
 }));
 

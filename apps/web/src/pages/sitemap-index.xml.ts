@@ -1,4 +1,4 @@
-import { SITE_URL } from "@/lib/constants/config";
+import { SITE_URL } from "../lib/constants/config";
 
 export async function GET() {
   const now = new Date().toISOString();

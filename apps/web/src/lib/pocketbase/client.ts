@@ -1,5 +1,5 @@
 import PocketBase from "pocketbase";
-import { POCKETBASE_URL } from "@/lib/constants/config";
+import { POCKETBASE_URL } from "../constants/config";
 
 let pbInstance: PocketBase | null = null;
 

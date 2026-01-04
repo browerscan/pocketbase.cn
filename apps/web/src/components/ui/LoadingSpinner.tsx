@@ -1,5 +1,5 @@
 import { memo, useMemo } from "react";
-import { cn } from "@/lib/utils/cn";
+import { cn } from "../../lib/utils/cn";
 
 interface LoadingSpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: "sm" | "md" | "lg";

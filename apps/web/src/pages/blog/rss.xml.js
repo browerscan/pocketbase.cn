@@ -1,5 +1,5 @@
 import { getCollection } from "astro:content";
-import { SITE_URL } from "@/lib/constants/config";
+import { SITE_URL } from "../../lib/constants/config";
 
 export async function GET(context) {
   const posts = await getCollection("blog", ({ data }) => !data.draft);

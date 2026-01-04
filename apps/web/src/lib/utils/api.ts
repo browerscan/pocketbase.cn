@@ -1,4 +1,4 @@
-import { AppError, isAppError, type ErrorCode } from "@/lib/errors/AppError";
+import { AppError, isAppError, type ErrorCode } from "../errors/AppError";
 import { fetchWithCsrf } from "./csrf";
 
 export interface ApiRequestOptions extends Omit<

@@ -1,15 +1,15 @@
 import { useState } from "react";
-import type { PluginListItem } from "@/lib/types/plugin";
-import { PLUGIN_CATEGORIES } from "@/lib/constants/categories";
-import { pocketbaseFileUrl } from "@/lib/utils/fileUrl";
-import { GridSkeleton } from "@/components/ui/Skeleton";
-import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
+import type { PluginListItem } from "../../lib/types/plugin";
+import { PLUGIN_CATEGORIES } from "../../lib/constants/categories";
+import { pocketbaseFileUrl } from "../../lib/utils/fileUrl";
+import { GridSkeleton } from "../ui/Skeleton";
+import { ErrorBoundary } from "../ui/ErrorBoundary";
 import {
   MobileFilterDrawer,
   FilterToggleButton,
-} from "@/components/ui/MobileFilterDrawer";
-import { usePaginatedListWithFilters } from "@/hooks/usePaginatedList";
-import type { InitialPaginatedData } from "@/hooks/usePaginatedList";
+} from "../ui/MobileFilterDrawer";
+import { usePaginatedListWithFilters } from "../../hooks/usePaginatedList";
+import type { InitialPaginatedData } from "../../hooks/usePaginatedList";
 
 type InitialListState = InitialPaginatedData<PluginListItem>;
 

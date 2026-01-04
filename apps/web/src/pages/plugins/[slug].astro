@@ -1,13 +1,13 @@
 ---
 export const prerender = false;
 
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import { POCKETBASE_URL } from "@/lib/constants/config";
-import { renderMarkdownSafe } from "@/lib/utils/markdown";
-import StarButton from "@/components/plugins/StarButton";
-import CommentsThread from "@/components/comments/CommentsThread";
-import InstallationCode from "@/components/plugins/InstallationCode";
-import { pocketbaseFileUrl } from "@/lib/utils/fileUrl";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { POCKETBASE_URL } from "../../lib/constants/config";
+import { renderMarkdownSafe } from "../../lib/utils/markdown";
+import StarButton from "../../components/plugins/StarButton";
+import CommentsThread from "../../components/comments/CommentsThread";
+import InstallationCode from "../../components/plugins/InstallationCode";
+import { pocketbaseFileUrl } from "../../lib/utils/fileUrl";
 
 const { slug } = Astro.params;
 if (!slug) return Astro.redirect("/plugins");

@@ -1,4 +1,4 @@
-import { POCKETBASE_URL } from "@/lib/constants/config";
+import { POCKETBASE_URL } from "../constants/config";
 
 let cachedToken = "";
 let inflight: Promise<string> | null = null;

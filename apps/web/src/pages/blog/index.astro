@@ -1,9 +1,9 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
-import { SITE_URL } from "@/lib/constants/config";
-import { POSTS_PER_PAGE } from "@/lib/constants/blog";
-import BlogArchive from "@/components/blog/BlogArchive.astro";
+import { SITE_URL } from "../../lib/constants/config";
+import { POSTS_PER_PAGE } from "../../lib/constants/blog";
+import BlogArchive from "../../components/blog/BlogArchive.astro";
 
 const allPosts = await getCollection("blog", ({ data }) => !data.draft);
 const sortedPosts = allPosts.sort((a, b) =>
