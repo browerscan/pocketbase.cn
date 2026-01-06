@@ -29,6 +29,9 @@ jobs:
 
       - name: Build
         run: pnpm web:build
+        env:
+          PUBLIC_POCKETBASE_URL: https://api.pocketbase.cn
+          PUBLIC_SITE_URL: https://pocketbase.cn
 
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
