@@ -1,0 +1,18 @@
+# Cloudflare Pages Configuration
+# Copy this file to wrangler.toml and configure your values
+# DO NOT commit wrangler.toml - it may contain sensitive data
+
+name = "pocketbase-cn"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Cloudflare Pages will use this output directory for deployments.
+pages_build_output_dir = "./dist"
+
+# IMPORTANT: account_id should be set via environment variable CLOUDFLARE_ACCOUNT_ID
+# Do NOT hardcode account_id here
+
+# Session KV namespace - configure in Cloudflare dashboard when needed
+# kv_namespaces = [
+#   { binding = "SESSION", id = "your-kv-id", preview_id = "your-preview-kv-id" }
+# ]
