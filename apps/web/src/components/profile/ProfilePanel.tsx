@@ -71,8 +71,12 @@ export default function ProfilePanel() {
             {avatarUrl ? (
               <img
                 src={avatarUrl}
-                alt=""
+                alt={`${user?.name || user?.username || user?.email || "用户"}头像`}
                 className="h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
+                width={48}
+                height={48}
               />
             ) : null}
           </div>

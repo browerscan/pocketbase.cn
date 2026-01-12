@@ -87,6 +87,20 @@ function bytes(n?: number) {
   return `${x.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
 }
 
+const OFFICIAL_RELEASE_PREFIX =
+  "https://github.com/" +
+  "pocketbase/pocketbase/" +
+  "releases/download/";
+
+function officialDownloadUrl(file: DownloadFile) {
+  if (!file.version || !file.platform || !file.arch) return "";
+  return `${OFFICIAL_RELEASE_PREFIX}v${file.version}/pocketbase_${file.version}_${file.platform}_${file.arch}.zip`;
+}
+
+function isOfficialDownloadUrl(url?: string | null) {
+  return Boolean(url && url.startsWith(OFFICIAL_RELEASE_PREFIX));
+}
+
 function DownloadsBrowserContent({ initial }: { initial?: InitialDownloads }) {
   const [versions, setVersions] = useState<string[]>(
     () => initial?.versions || [],
@@ -205,6 +219,12 @@ function DownloadsBrowserContent({ initial }: { initial?: InitialDownloads }) {
     }
   };
 
+  const recommendedFallback = recommended ? officialDownloadUrl(recommended) : "";
+  const showRecommendedFallback = Boolean(
+    recommendedFallback &&
+      (!recommended?.url || !isOfficialDownloadUrl(recommended.url)),
+  );
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -264,30 +284,45 @@ function DownloadsBrowserContent({ initial }: { initial?: InitialDownloads }) {
                 {bytes(recommended.size)}
               </div>
             </div>
-            {recommended.url ? (
-              <a
-                className="inline-flex items-center justify-center gap-2 rounded-md bg-brand-600 px-3 py-2 text-sm font-medium text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
-                href={recommended.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackDownload(recommended)}
-              >
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                  />
-                </svg>
-                下载 v{recommended.version}
-              </a>
+            {recommended.url || showRecommendedFallback ? (
+              <div className="flex flex-wrap gap-2">
+                {recommended.url ? (
+                  <a
+                    className="inline-flex items-center justify-center gap-2 rounded-md bg-brand-600 px-3 py-2 text-sm font-medium text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+                    href={recommended.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackDownload(recommended)}
+                  >
+                    <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                      />
+                    </svg>
+                    下载 v{recommended.version}
+                  </a>
+                ) : null}
+                {showRecommendedFallback ? (
+                  <a
+                    className="inline-flex items-center justify-center rounded-md border border-brand-200 bg-white px-3 py-2 text-sm font-medium text-brand-700 hover:bg-brand-50 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:border-brand-900/40 dark:bg-neutral-950 dark:text-brand-300 dark:hover:bg-brand-950/30"
+                    href={recommendedFallback}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackDownload(recommended)}
+                  >
+                    官方源下载
+                  </a>
+                ) : null}
+              </div>
             ) : null}
           </div>
         </div>
@@ -318,149 +353,194 @@ function DownloadsBrowserContent({ initial }: { initial?: InitialDownloads }) {
                 </tr>
               </thead>
               <tbody>
-                {files.map((f) => (
-                  <tr
-                    key={f.id}
-                    className={[
-                      "border-t border-neutral-200 dark:border-neutral-800",
-                      recommended?.id === f.id
-                        ? "bg-brand-50/70 dark:bg-brand-950/20"
-                        : "",
-                    ].join(" ")}
-                  >
-                    <td className="px-4 py-2">{f.platform}</td>
-                    <td className="px-4 py-2">{f.arch}</td>
-                    <td className="px-4 py-2">{bytes(f.size)}</td>
-                    <td className="px-4 py-2 font-mono text-xs">
-                      {f.checksum ? (
-                        <span className="inline-flex items-center gap-2">
-                          <span title={f.checksum}>
-                            {f.checksum.slice(0, 12)}…
+                {files.map((f) => {
+                  const fallbackUrl = officialDownloadUrl(f);
+                  const showFallback = Boolean(
+                    fallbackUrl &&
+                      (!f.url || !isOfficialDownloadUrl(f.url)),
+                  );
+
+                  return (
+                    <tr
+                      key={f.id}
+                      className={[
+                        "border-t border-neutral-200 dark:border-neutral-800",
+                        recommended?.id === f.id
+                          ? "bg-brand-50/70 dark:bg-brand-950/20"
+                          : "",
+                      ].join(" ")}
+                    >
+                      <td className="px-4 py-2">{f.platform}</td>
+                      <td className="px-4 py-2">{f.arch}</td>
+                      <td className="px-4 py-2">{bytes(f.size)}</td>
+                      <td className="px-4 py-2 font-mono text-xs">
+                        {f.checksum ? (
+                          <span className="inline-flex items-center gap-2">
+                            <span title={f.checksum}>
+                              {f.checksum.slice(0, 12)}…
+                            </span>
+                            <button
+                              type="button"
+                              className="rounded border border-neutral-200 bg-white px-2 py-1 text-[11px] hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:bg-neutral-900"
+                              onClick={() => copyChecksum(f.checksum!)}
+                              aria-label={`复制校验值 ${f.checksum.slice(0, 12)}`}
+                            >
+                              {copiedChecksum === f.checksum ? "已复制" : "复制"}
+                            </button>
                           </span>
-                          <button
-                            type="button"
-                            className="rounded border border-neutral-200 bg-white px-2 py-1 text-[11px] hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:bg-neutral-900"
-                            onClick={() => copyChecksum(f.checksum!)}
-                            aria-label={`复制校验值 ${f.checksum.slice(0, 12)}`}
-                          >
-                            {copiedChecksum === f.checksum ? "已复制" : "复制"}
-                          </button>
-                        </span>
-                      ) : (
-                        "-"
-                      )}
-                    </td>
-                    <td className="px-4 py-2">
-                      {f.url ? (
-                        <a
-                          className="text-brand-700 hover:underline focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 rounded dark:text-brand-300"
-                          href={f.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={() => trackDownload(f)}
-                        >
-                          下载
-                        </a>
-                      ) : (
-                        <span className="text-neutral-500">-</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                      <td className="px-4 py-2">
+                        {f.url || showFallback ? (
+                          <div className="flex flex-col gap-1">
+                            {f.url ? (
+                              <a
+                                className="text-brand-700 hover:underline focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 rounded dark:text-brand-300"
+                                href={f.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => trackDownload(f)}
+                              >
+                                下载
+                              </a>
+                            ) : null}
+                            {showFallback ? (
+                              <a
+                                className="text-xs text-neutral-500 hover:underline focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 rounded dark:text-neutral-400"
+                                href={fallbackUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => trackDownload(f)}
+                              >
+                                官方源
+                              </a>
+                            ) : null}
+                          </div>
+                        ) : (
+                          <span className="text-neutral-500">-</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
 
           {/* Mobile Card View */}
           <div className="space-y-3 md:hidden">
-            {files.map((f) => (
-              <div
-                key={f.id}
-                className={cn(
-                  "overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950",
-                  recommended?.id === f.id
-                    ? "border-brand-300 bg-brand-50/50 dark:border-brand-700 dark:bg-brand-950/30"
-                    : "",
-                )}
-              >
-                <div className="border-b border-neutral-200 px-4 py-3 dark:border-neutral-800">
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-medium text-neutral-900 dark:text-neutral-100">
-                      {f.platform} / {f.arch}
-                    </h3>
-                    {recommended?.id === f.id ? (
-                      <span className="rounded-full bg-brand-600 px-2 py-0.5 text-xs font-medium text-white">
-                        推荐
-                      </span>
-                    ) : null}
-                  </div>
-                  <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
-                    {bytes(f.size)}
-                  </p>
-                </div>
-                <div className="divide-y divide-neutral-200 dark:divide-neutral-800">
-                  <div className="flex justify-between px-4 py-3">
-                    <span className="text-sm text-neutral-600 dark:text-neutral-400">
-                      校验值
-                    </span>
-                    <span className="font-mono text-xs text-neutral-900 dark:text-neutral-100">
-                      {f.checksum ? (
-                        <span className="inline-flex items-center gap-2">
-                          <span
-                            title={f.checksum}
-                            className="max-w-[120px] truncate"
-                          >
-                            {f.checksum.slice(0, 12)}…
-                          </span>
-                          <button
-                            type="button"
-                            className="rounded border border-neutral-200 bg-white px-2 py-1 text-[11px] hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:bg-neutral-900"
-                            onClick={() => copyChecksum(f.checksum!)}
-                            aria-label={`复制校验值 ${f.checksum.slice(0, 12)}`}
-                          >
-                            {copiedChecksum === f.checksum ? "已复制" : "复制"}
-                          </button>
+            {files.map((f) => {
+              const fallbackUrl = officialDownloadUrl(f);
+              const showFallback = Boolean(
+                fallbackUrl && (!f.url || !isOfficialDownloadUrl(f.url)),
+              );
+
+              return (
+                <div
+                  key={f.id}
+                  className={cn(
+                    "overflow-hidden rounded-xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950",
+                    recommended?.id === f.id
+                      ? "border-brand-300 bg-brand-50/50 dark:border-brand-700 dark:bg-brand-950/30"
+                      : "",
+                  )}
+                >
+                  <div className="border-b border-neutral-200 px-4 py-3 dark:border-neutral-800">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-medium text-neutral-900 dark:text-neutral-100">
+                        {f.platform} / {f.arch}
+                      </h3>
+                      {recommended?.id === f.id ? (
+                        <span className="rounded-full bg-brand-600 px-2 py-0.5 text-xs font-medium text-white">
+                          推荐
                         </span>
-                      ) : (
-                        "-"
-                      )}
-                    </span>
+                      ) : null}
+                    </div>
+                    <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+                      {bytes(f.size)}
+                    </p>
                   </div>
-                  <div className="flex justify-between px-4 py-3">
-                    <span className="text-sm text-neutral-600 dark:text-neutral-400">
-                      下载链接
-                    </span>
-                    {f.url ? (
-                      <a
-                        className="min-h-[44px] min-w-[44px] inline-flex items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
-                        href={f.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => trackDownload(f)}
-                      >
-                        <svg
-                          className="mr-1 h-4 w-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                          />
-                        </svg>
-                        下载
-                      </a>
-                    ) : (
-                      <span className="text-neutral-500">-</span>
-                    )}
+                  <div className="divide-y divide-neutral-200 dark:divide-neutral-800">
+                    <div className="flex justify-between px-4 py-3">
+                      <span className="text-sm text-neutral-600 dark:text-neutral-400">
+                        校验值
+                      </span>
+                      <span className="font-mono text-xs text-neutral-900 dark:text-neutral-100">
+                        {f.checksum ? (
+                          <span className="inline-flex items-center gap-2">
+                            <span
+                              title={f.checksum}
+                              className="max-w-[120px] truncate"
+                            >
+                              {f.checksum.slice(0, 12)}…
+                            </span>
+                            <button
+                              type="button"
+                              className="rounded border border-neutral-200 bg-white px-2 py-1 text-[11px] hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:bg-neutral-900"
+                              onClick={() => copyChecksum(f.checksum!)}
+                              aria-label={`复制校验值 ${f.checksum.slice(0, 12)}`}
+                            >
+                              {copiedChecksum === f.checksum ? "已复制" : "复制"}
+                            </button>
+                          </span>
+                        ) : (
+                          "-"
+                        )}
+                      </span>
+                    </div>
+                    <div className="flex justify-between px-4 py-3">
+                      <span className="text-sm text-neutral-600 dark:text-neutral-400">
+                        下载链接
+                      </span>
+                      {f.url || showFallback ? (
+                        <div className="flex flex-col items-end gap-1">
+                          {f.url ? (
+                            <a
+                              className="min-h-[44px] min-w-[44px] inline-flex items-center rounded-lg bg-brand-600 px-4 py-2 text-sm font-medium text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+                              href={f.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={() => trackDownload(f)}
+                            >
+                              <svg
+                                className="mr-1 h-4 w-4"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                                />
+                              </svg>
+                              下载
+                            </a>
+                          ) : null}
+                          {showFallback ? (
+                            <a
+                              className="text-xs text-neutral-500 hover:underline focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 rounded dark:text-neutral-400"
+                              href={fallbackUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={() => trackDownload(f)}
+                            >
+                              官方源
+                            </a>
+                          ) : null}
+                        </div>
+                      ) : (
+                        <span className="text-neutral-500">-</span>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </>
       ) : null}

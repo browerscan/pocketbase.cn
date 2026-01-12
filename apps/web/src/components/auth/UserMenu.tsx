@@ -124,6 +124,10 @@ export default function UserMenu() {
               src={avatarUrl}
               alt={`${user?.name || "用户"}头像`}
               className="h-full w-full object-cover"
+              loading="lazy"
+              decoding="async"
+              width={24}
+              height={24}
             />
           ) : null}
         </span>
