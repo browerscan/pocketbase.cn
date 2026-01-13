@@ -16,8 +16,15 @@ export default defineConfig({
     platformProxy: { enabled: false }, // Disable to avoid build error
     imageService: "compile",
     routes: {
-      strategy: "include",
-      include: ["/api/*"], // Only include API routes as edge functions
+      strategy: "exclude",
+      exclude: [
+        "/favicon.svg",
+        "/og-image.png",
+        "/robots.txt",
+        "/sw.js",
+        "/_astro/*",
+        "/pagefind/*",
+      ],
     },
   }),
   integrations: [
