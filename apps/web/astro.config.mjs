@@ -38,6 +38,9 @@ export default defineConfig({
       prerender: true, // Pre-render docs; dynamic pages opt-in to SSR via `prerender = false`
       pagefind: false, // Keep disabled until search UI is re-enabled
       disable404Route: true,
+      markdown: {
+        shiki: false, // Disable Shiki syntax highlighting to reduce bundle size
+      },
       defaultLocale: "root",
       locales: {
         root: { label: "中文", lang: "zh-CN" },
@@ -148,15 +151,35 @@ export default defineConfig({
       rollupOptions: {
         output: {
           manualChunks(id) {
-            // Split vendor chunks for better caching
+            // Split vendor chunks for better caching and smaller bundles
             if (id.includes("node_modules")) {
+              // Starlight (docs) - separate chunk
+              if (id.includes("@astrojs/starlight")) {
+                return "starlight";
+              }
               // React ecosystem
               if (id.includes("react") || id.includes("react-dom")) {
                 return "vendor-react";
               }
-              // UI libraries
-              if (id.includes("@radix-ui")) {
-                return "vendor-ui";
+              // Astro core
+              if (id.includes("astro/") && !id.includes("@astrojs")) {
+                return "vendor-astro";
+              }
+              // Pocketbase SDK
+              if (id.includes("pocketbase")) {
+                return "vendor-pocketbase";
+              }
+              // Markdown/sanitization
+              if (id.includes("marked") || id.includes("sanitize-html")) {
+                return "vendor-markdown";
+              }
+              // Nanostores (state)
+              if (id.includes("nanostores")) {
+                return "vendor-nanostores";
+              }
+              // Zod validation
+              if (id.includes("zod")) {
+                return "vendor-zod";
               }
               // Other dependencies
               return "vendor";

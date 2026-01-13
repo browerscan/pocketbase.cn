@@ -3,7 +3,10 @@ import { SITE_URL } from "../lib/constants/config";
 import { POSTS_PER_PAGE } from "../lib/constants/blog";
 
 export async function GET() {
-  const blog = await getCollection("blog", ({ data }: { data: { draft?: boolean } }) => !data.draft);
+  const blog = await getCollection(
+    "blog",
+    ({ data }: { data: { draft?: boolean } }) => !data.draft,
+  );
 
   const sitemap = `
 <?xml version="1.0" encoding="UTF-8"?>
@@ -15,9 +18,17 @@ ${(() => {
   );
 
   const categories = [
-    ...new Set(posts.map((p: { data: { category?: string } }) => String(p.data.category || "未分类"))),
+    ...new Set(
+      posts.map((p: { data: { category?: string } }) =>
+        String(p.data.category || "未分类"),
+      ),
+    ),
   ];
-  const tags = [...new Set(posts.flatMap((p: { data: { tags?: string[] } }) => p.data.tags || []))].filter(Boolean);
+  const tags = [
+    ...new Set(
+      posts.flatMap((p: { data: { tags?: string[] } }) => p.data.tags || []),
+    ),
+  ].filter(Boolean);
 
   const out: string[] = [];
   const seen = new Set<string>();
@@ -38,7 +49,9 @@ ${(() => {
   </url>`);
   };
 
-  const mostRecent = (items: Array<{ data?: { updatedDate?: Date; publishDate?: Date } }>) => {
+  const mostRecent = (
+    items: Array<{ data?: { updatedDate?: Date; publishDate?: Date } }>,
+  ) => {
     const top = items[0];
     const date = top?.data?.updatedDate || top?.data?.publishDate;
     return (date || new Date()).toISOString();
@@ -63,7 +76,8 @@ ${(() => {
   // Category pages + pagination
   for (const category of categories) {
     const catPosts = posts.filter(
-      (p: { data: { category?: string } }) => String(p.data.category || "未分类") === category,
+      (p: { data: { category?: string } }) =>
+        String(p.data.category || "未分类") === category,
     );
     const catPages = Math.ceil(catPosts.length / POSTS_PER_PAGE) || 1;
     const enc = encodeURIComponent(String(category));
@@ -86,7 +100,8 @@ ${(() => {
   // Tag pages + pagination
   for (const tag of tags) {
     const tagPosts = posts.filter(
-      (p: { data: { tags?: string[] } }) => Array.isArray(p.data.tags) && p.data.tags.includes(String(tag)),
+      (p: { data: { tags?: string[] } }) =>
+        Array.isArray(p.data.tags) && p.data.tags.includes(String(tag)),
     );
     const tagPages = Math.ceil(tagPosts.length / POSTS_PER_PAGE) || 1;
     const enc = encodeURIComponent(String(tag));

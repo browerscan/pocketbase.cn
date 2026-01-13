@@ -34,14 +34,19 @@ export const ProgressiveImage = forwardRef<
     const [imageNode, setImageNode] = useState<HTMLImageElement | null>(null);
 
     // Ref callback to capture the DOM element
-    const setRef = useCallback((node: HTMLImageElement | null) => {
-      setImageNode(node);
-      if (typeof externalRef === "function") {
-        externalRef(node);
-      } else if (externalRef) {
-        (externalRef as React.MutableRefObject<HTMLImageElement | null>).current = node;
-      }
-    }, [externalRef]);
+    const setRef = useCallback(
+      (node: HTMLImageElement | null) => {
+        setImageNode(node);
+        if (typeof externalRef === "function") {
+          externalRef(node);
+        } else if (externalRef) {
+          (
+            externalRef as React.MutableRefObject<HTMLImageElement | null>
+          ).current = node;
+        }
+      },
+      [externalRef],
+    );
 
     useEffect(() => {
       const img = imageNode;

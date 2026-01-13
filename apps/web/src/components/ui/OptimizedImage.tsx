@@ -12,7 +12,10 @@ const DEFAULT_CDN_CONFIG: ImageCdnConfig = {
   formats: ["webp", "jpeg"],
 };
 
-export interface OptimizedImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, "srcSet" | "sizes"> {
+export interface OptimizedImageProps extends Omit<
+  React.ImgHTMLAttributes<HTMLImageElement>,
+  "srcSet" | "sizes"
+> {
   src: string;
   alt: string;
   width: number;
@@ -53,14 +56,19 @@ export const OptimizedImage = forwardRef<HTMLImageElement, OptimizedImageProps>(
     const [imageNode, setImageNode] = useState<HTMLImageElement | null>(null);
 
     // Ref callback to capture the DOM element
-    const setRef = useCallback((node: HTMLImageElement | null) => {
-      setImageNode(node);
-      if (typeof externalRef === "function") {
-        externalRef(node);
-      } else if (externalRef) {
-        (externalRef as React.MutableRefObject<HTMLImageElement | null>).current = node;
-      }
-    }, [externalRef]);
+    const setRef = useCallback(
+      (node: HTMLImageElement | null) => {
+        setImageNode(node);
+        if (typeof externalRef === "function") {
+          externalRef(node);
+        } else if (externalRef) {
+          (
+            externalRef as React.MutableRefObject<HTMLImageElement | null>
+          ).current = node;
+        }
+      },
+      [externalRef],
+    );
 
     useEffect(() => {
       const img = imageNode;
@@ -68,7 +76,9 @@ export const OptimizedImage = forwardRef<HTMLImageElement, OptimizedImageProps>(
 
       const handleLoad = () => {
         setIsLoaded(true);
-        onLoad?.({ nativeEvent: {} as Event } as React.SyntheticEvent<HTMLImageElement>);
+        onLoad?.({
+          nativeEvent: {} as Event,
+        } as React.SyntheticEvent<HTMLImageElement>);
       };
 
       const handleError = () => setHasError(true);
@@ -99,9 +109,14 @@ export const OptimizedImage = forwardRef<HTMLImageElement, OptimizedImageProps>(
     const srcSet = generateSrcSet();
     const defaultSizes =
       sizes ||
-      breakpoints.map((bp, i) => (i === 0 ? "(max-width: " + bp + "px) 100vw" : bp + "px")).join(", ");
+      breakpoints
+        .map((bp, i) =>
+          i === 0 ? "(max-width: " + bp + "px) 100vw" : bp + "px",
+        )
+        .join(", ");
 
-    const placeholderStyle = placeholder === "color" ? { backgroundColor: blurColor } : undefined;
+    const placeholderStyle =
+      placeholder === "color" ? { backgroundColor: blurColor } : undefined;
 
     return (
       <div className="relative overflow-hidden" style={{ width, height }}>
@@ -134,18 +149,10 @@ export const OptimizedImage = forwardRef<HTMLImageElement, OptimizedImageProps>(
         )}
         <picture>
           {cdn.formats?.includes("avif") && (
-            <source
-              srcSet={srcSet}
-              sizes={defaultSizes}
-              type="image/avif"
-            />
+            <source srcSet={srcSet} sizes={defaultSizes} type="image/avif" />
           )}
           {cdn.formats?.includes("webp") && (
-            <source
-              srcSet={srcSet}
-              sizes={defaultSizes}
-              type="image/webp"
-            />
+            <source srcSet={srcSet} sizes={defaultSizes} type="image/webp" />
           )}
           <img
             ref={setRef}
@@ -212,7 +219,15 @@ export function PocketBaseImage({
 
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
   const thumbParam = thumb ? "?thumb=" + thumb : "";
-  const src = baseUrl + "/api/files/" + collection + "/" + recordId + "/" + filename + thumbParam;
+  const src =
+    baseUrl +
+    "/api/files/" +
+    collection +
+    "/" +
+    recordId +
+    "/" +
+    filename +
+    thumbParam;
 
   return (
     <div className="relative overflow-hidden">
