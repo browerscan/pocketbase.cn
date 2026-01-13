@@ -151,35 +151,27 @@ export default defineConfig({
       rollupOptions: {
         output: {
           manualChunks(id) {
-            // Split vendor chunks for better caching and smaller bundles
+            // Keep Astro dependencies together to avoid circular deps
             if (id.includes("node_modules")) {
-              // Starlight (docs) - separate chunk
-              if (id.includes("@astrojs/starlight")) {
-                return "starlight";
-              }
               // React ecosystem
-              if (id.includes("react") || id.includes("react-dom")) {
+              if (
+                id.includes("react") ||
+                id.includes("react-dom") ||
+                id.includes("scheduler")
+              ) {
                 return "vendor-react";
               }
-              // Astro core
-              if (id.includes("astro/") && !id.includes("@astrojs")) {
+              // Keep all Astro-related packages together
+              if (
+                id.includes("astro") ||
+                id.includes("@astrojs") ||
+                id.includes("nanostores")
+              ) {
                 return "vendor-astro";
               }
               // Pocketbase SDK
               if (id.includes("pocketbase")) {
                 return "vendor-pocketbase";
-              }
-              // Markdown/sanitization
-              if (id.includes("marked") || id.includes("sanitize-html")) {
-                return "vendor-markdown";
-              }
-              // Nanostores (state)
-              if (id.includes("nanostores")) {
-                return "vendor-nanostores";
-              }
-              // Zod validation
-              if (id.includes("zod")) {
-                return "vendor-zod";
               }
               // Other dependencies
               return "vendor";
